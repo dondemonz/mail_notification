@@ -1,0 +1,107 @@
+from model.input_data import *
+# import time
+
+def test_create_mms_and_mail_message(fix):
+    fix.send_event(message=("CORE||CREATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,name<MMS>,smtp<smtp.gmail.com>,port<465>,protocol<SSL/TLS>,use_secure_connection<1>,smtp_auth<1>").encode("utf-8"))
+    fix.send_event(message=("CORE||CREATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,name<Test_Message>").encode("utf-8"))
+    # реализовать проверку на наличие объектов
+
+def test_incorrect_setup_mms_login(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,smtp_password<P0stgres>,smtp_login<qu@tes.tiss@gm.ail..com>").encode("utf-8"))
+    # проверка установленных параметров
+
+def test_correct_setup_mms(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,smtp_password<P0stgres>,smtp_login<qutestiss@gmail.com>").encode("utf-8"))
+    # проверка установленных параметров
+
+def test_setup_mail_message_incorrect_to(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<@#$%^&*(gfsdg)>,body<Something in body>,from<qutestiss@gmail.com>,subject<TEST MESSAGE>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|"+objId+"|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    #       e.action == "SEND_ERROR","Failed sent TO");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Send error caught, step complete")
+    # 		Unit.Done();
+
+def test_setup_mail_message_incorrect_cc(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<@#$%^&*(gfsdg)>,to<>,body<Something in body>,from<qutestiss@gmail.com>,subject<TEST MESSAGE>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    # e.action == "SEND_ERROR","Failed sent CC");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Send error caught, step complete");
+    # 		Unit.Done();
+
+def test_setup_mail_message_incorrect_from(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<>,body<Something in body>,from<@#$%^&*(gfsdg)>,subject<TEST MESSAGE>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    # Unit.Ok(e.action == "SEND_ERROR","Failed sent FROM");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Send error caught, step complete");
+    # 		Unit.Done();
+
+def test_message_empty_address_and_copy(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageEmptyAddressAndCopy").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    #	Unit.Ok(e.action == "SEND_ERROR","Failed sent with empty address");
+	#	Script.Sleep(1000);
+	#	Log.Trace("Send error caught, step complete");
+	#	Unit.Done();
+
+def test_message_empty_address_and_one_copy(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com>,to<>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageEmptyAddressAndOneCopy>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    # e.action == "SEND_ERROR","Failed sent with one copy");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Message sent, step complete");
+    # 		Unit.Done();
+
+def test_message_one_adress_and_copy(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com>,to<qatest@iss.ru>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageOneAdressAndCopy>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    # e.action == "SENT","Message sent with one copy");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Message sent, step complete");
+    # 		Unit.Done();
+
+def test_message_two_adress_and_copy(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<vtestp986@gmail.com;qatest@iss.ru>,to<qatestiss@yandex.ru;qutestiss@gmail.com>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageTwoAdressAndCopy>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    # e.action == "SENT","Message sent with two copy");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Message sent, step complete");
+    # 		Unit.Done();
+
+def test_message_one_address_and_copy_with_trash(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com;asd!@#^$^fdg@.dsrgfdfusg#@sd..sdfa342*()_+_>,to<qatest@iss.ru;xcvb(&@#$*@#(DSUGFH@(HF(@Fsdgkdfg/.(())'h,\,]54-=+_+}381-)>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageOneAdressAndCopyWithTrash>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    # e.action == "SENT","Message sent with two copy");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Message sent, step complete");
+    # 		Unit.Done();
+
+
+def test_another_message_one_address_and_copy_with_trash(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com;asd2>,to<qatest@iss.ru;xcvb123asd>,body<Something in body>,from<qutestiss@gmail.com>,subject<AnotherMessageOneAdressAndCopyWithTrash>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    # e.action == "SENT","Message sent with two copy");
+    # 		Script.Sleep(1000);
+    # 		Log.Trace("Message sent, step complete");
+    # 		Unit.Done();
+
+def test_params_in_message(fix):
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<qatest@iss.ru>,body<#body#>,from<qutestiss@gmail.com>,subject<#subject#>,attachments<>").encode("utf-8"))
+    fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND, body<Test message with params and attachment>,subject<Message with params>,attachments<C:\\test.jpg>").encode("utf-8"))
+    # проверка Core.RegisterEventHandler("MAIL_MESSAGE","999","*",check);
+    #e.action == "SENT","Message sent with two copy");
+	#	Script.Sleep(1000);
+	#	Log.Trace("Message with params sent, step complete");
+	#	Unit.Done();
+
