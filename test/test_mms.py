@@ -1,12 +1,7 @@
 from model.input_data import *
 import time
 from parse import search
-import json
 
-def test_create_mms_and_mail_message(fix):
-    fix.send_event(message=("CORE||CREATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,name<MMS>,smtp<smtp.gmail.com>,port<465>,protocol<SSL/TLS>,use_secure_connection<1>,smtp_auth<1>").encode("utf-8"))
-    fix.send_event(message=("CORE||CREATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,name<Test_Message>").encode("utf-8"))
-    # реализовать проверку на наличие объектов
 
 def test_incorrect_setup_mms_login(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,smtp_password<P0stgres>,smtp_login<qu@tes.tiss@gm.ail..com>").encode("utf-8"))
@@ -130,7 +125,6 @@ def test_message_one_address_and_copy_with_trash(fix):
     # e.action == "SENT","Message sent with two copy");
 
 
-
 def test_another_message_one_address_and_copy_with_trash(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com;asd2>,to<qatest@iss.ru;xcvb123asd>,body<Something in body>,from<qutestiss@gmail.com>,subject<AnotherMessageOneAdressAndCopyWithTrash>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
@@ -147,14 +141,13 @@ def test_another_message_one_address_and_copy_with_trash(fix):
 
 
 def test_params_in_message(fix):
-    #fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<qatest@iss.ru>,body<#body#>,from<qutestiss@gmail.com>,subject<#subject#>,attachments<>").encode("utf-8"))
+    fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<qatest@iss.ru>,body<#body#>,from<qutestiss@gmail.com>,subject<#subject#>,attachments<>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND|body<Test message with params and attachment>,subject<Message with params>,attachments<C:\\test.jpg>").encode("utf-8"))
-    #body<Test message with params and attachment>,subject<Message with params>,attachments<C:\\test.jpg>"
     time.sleep(1)
     n = fix.cb1.decode("utf-8")
     print(n)
     param = search('action<{}>', n)
-    time.sleep(1)
+    time.sleep(2)
     # выборка нужного элемента
     param = param.fixed[0]
     assert param == "SENT"
