@@ -144,7 +144,7 @@ def test_another_message_one_address_and_copy_with_trash(fix):
 def test_params_in_message(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<qatest@iss.ru>,body<#body#>,from<qutestiss@gmail.com>,subject<#subject#>,attachments<>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND|body<Test message with params and attachment>,subject<Message with params>,attachments<C:\\test.jpg>").encode("utf-8"))
-    time.sleep(1)
+    time.sleep(2)
     n = fix.cb1.decode("utf-8")
     print(n)
     param = search('action<{}>', n)
