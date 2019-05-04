@@ -17,6 +17,7 @@ def test_setup_mail_message_incorrect_to(fix):
     time.sleep(1)
     n = fix.cb1.decode("utf-8")
     # print(n)
+    time.sleep(1)
     param = search('action<{}>', n)
     # выборка нужного элемента
     param = param.fixed[0]
