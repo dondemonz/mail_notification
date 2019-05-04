@@ -14,7 +14,7 @@ def test_correct_setup_mms(fix):
 def test_setup_mail_message_incorrect_to(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<@#$%^&*(gfsdg)>,body<Something in body>,from<qutestiss@gmail.com>,subject<TEST MESSAGE>").encode("utf-8"))
     fix.send_react("MAIL_MESSAGE|999|SEND".encode("utf-8"))
-    time.sleep(1)
+    time.sleep(2)
     n = fix.cb1.decode("utf-8")
     # print(n)
     time.sleep(1)
