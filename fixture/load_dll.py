@@ -12,7 +12,7 @@ p7 = 0
 
 
 class DllHelper:
-    def __init__(self, message=None, cb1=None, cb2=None, cb3=None, obj_name=None, obj_id=None, list=None):
+    def __init__(self, message=None, cb1=None, cb2=None, cb3=None, obj_name=None, obj_id=None):
         self.my_dll = windll.LoadLibrary("iidk.dll")
         self.ConnectEx = self.my_dll.ConnectEx
         self.Disconnect = self.my_dll.Disconnect
@@ -23,7 +23,7 @@ class DllHelper:
         self.cb1 = cb1
         self.cb2 = cb2
         self.cb3 = cb3
-        self.list = list
+        self.list = []
 
 
     def callback(self, cb1, cb2, cb3):
@@ -32,9 +32,8 @@ class DllHelper:
         #print(cb2)
         #print(cb3)
         self.cb1 = cb1
-        self.list = []
         self.list.append(cb1.decode("latin-1"))
-        print(self.list)
+        # print(self.list)
         return 0
 
     def callback_proto(self):

@@ -5,12 +5,24 @@ from parse import search
 
 def test_incorrect_setup_mms_login(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,smtp_password<P0stgres>,smtp_login<qu@tes.tiss@gm.ail..com>").encode("utf-8"))
-    # проверка установленных параметров
+    time.sleep(1)
+    fix.send_event(message=("CORE||GET_CONFIG|objtype<MMS>,objid<" + objId + ">,receiver_id<1>").encode("utf-8"))
+    time.sleep(2)
+    # print(fix.list)
+    for param in fix.list:
+        if search('smtp_login<{}>', param) != None:
+            assert search('smtp_login<{}>', param).fixed[0] == "qu@tes.tiss@gm.ail..com"
 
 
 def test_correct_setup_mms(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,smtp_password<P0stgres>,smtp_login<qutestiss@gmail.com>").encode("utf-8"))
-    # проверка установленных параметров
+    time.sleep(1)
+    fix.send_event(message=("CORE||GET_CONFIG|objtype<MMS>,objid<" + objId + ">,receiver_id<1>").encode("utf-8"))
+    time.sleep(2)
+    # print(fix.list)
+    for param in fix.list:
+        if search('smtp_login<{}>', param) != None:
+            assert search('smtp_login<{}>', param).fixed[0] == "qutestiss@gmail.com"
 
 def test_setup_mail_message_incorrect_to(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<@#$%^&*(gfsdg)>,body<Something in body>,from<qutestiss@gmail.com>,subject<TEST MESSAGE>").encode("utf-8"))
