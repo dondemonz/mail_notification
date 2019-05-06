@@ -1,5 +1,6 @@
 from ctypes import windll, WINFUNCTYPE, c_int, c_char_p, c_ulong, c_uint32
 from model.input_data import *
+import time
 
 p1 = c_char_p(localHostIp.encode("utf-8"))
 p2 = c_char_p(iidkPort.encode("utf-8"))
@@ -11,7 +12,7 @@ p7 = 0
 
 
 class DllHelper:
-    def __init__(self, message=None, cb1=None, cb2=None, cb3=None, obj_name=None, obj_id=None):
+    def __init__(self, message=None, cb1=None, cb2=None, cb3=None, obj_name=None, obj_id=None, list=None):
         self.my_dll = windll.LoadLibrary("iidk.dll")
         self.ConnectEx = self.my_dll.ConnectEx
         self.Disconnect = self.my_dll.Disconnect
@@ -22,14 +23,18 @@ class DllHelper:
         self.cb1 = cb1
         self.cb2 = cb2
         self.cb3 = cb3
+        self.list = list
 
 
     def callback(self, cb1, cb2, cb3):
         # сохранение параметра в общей переменной
-        # print(cb1)
-        # print(cb2)
-        # print(cb3)
+        #print(cb1.decode("latin-1"))  #заменил utf-8 на latin-1 из за ошибки "utf-8' codec can't decode byte 0xc8 in position 21: invalid continuation byte"
+        #print(cb2)
+        #print(cb3)
         self.cb1 = cb1
+        self.list = []
+        self.list.append(cb1.decode("latin-1"))
+        print(self.list)
         return 0
 
     def callback_proto(self):
@@ -44,12 +49,14 @@ class DllHelper:
         self.my_dll.ConnectEx.argtypes = [c_char_p, c_char_p, c_char_p, CallbackProto, c_uint32, c_int, c_uint32]
         self.my_dll.ConnectEx(p1, p2, p3, CallbackWrapper, p5, p6, p7)
 
+
     def send_react(self, message):
         self.connect_to_dll()
         # message = ("CORE", "RANDOM", "CREATE_OBJECT", "objtype", "CAM", "objid", "999999", "parent_id", "2", "name", "Test Camera")
         msg = c_char_p(message)
         self.my_dll.SendDoReact.argtypes = [c_char_p, c_char_p]
         self.my_dll.SendDoReact(p3, msg)
+
 
     def send_event(self, message):
         self.connect_to_dll()
