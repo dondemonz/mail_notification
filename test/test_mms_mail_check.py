@@ -16,6 +16,7 @@ def test_mail_iss():
     time.sleep(2)
     # в будущем можно сделать проверку на количество писем и содержание, но пока удаляем все что есть (тест проходит даже если нет писем) chkmsg работает для одного первого сообщения
     wd.quit()
+    time.sleep(2)
 
 
 def test_yandex_mail():
@@ -37,7 +38,7 @@ def test_yandex_mail():
     wd.find_element_by_css_selector("span.mail-Toolbar-Item-Text.js-toolbar-item-title.js-toolbar-item-title-delete").click()
     time.sleep(1)
     wd.quit()
-
+    time.sleep(2)
 
 def test_google_mail():
     wd = webdriver.Chrome()
@@ -56,6 +57,7 @@ def test_google_mail():
     wd.find_element_by_xpath("//div[@aria-label='Удалить']").click()
     time.sleep(2)
     wd.quit()
+    time.sleep(2)
 
 def test_google_mail2():
     wd = webdriver.Chrome()
