@@ -1,8 +1,10 @@
 from model.input_data import *
 import time
 from parse import search
+import pytest
 
 
+@pytest.mark.order1
 def test_incorrect_setup_mms_login(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,smtp_password<P0stgres>,smtp_login<qu@tes.tiss@gm.ail..com>").encode("utf-8"))
     time.sleep(1)
@@ -14,6 +16,7 @@ def test_incorrect_setup_mms_login(fix):
             assert search('smtp_login<{}>', param).fixed[0] == "qu@tes.tiss@gm.ail..com"
 
 
+@pytest.mark.order2
 def test_correct_setup_mms(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,smtp_password<P0stgres>,smtp_login<qutestiss@gmail.com>").encode("utf-8"))
     time.sleep(1)
@@ -24,6 +27,8 @@ def test_correct_setup_mms(fix):
         if search('smtp_login<{}>', param) != None:
             assert search('smtp_login<{}>', param).fixed[0] == "qutestiss@gmail.com"
 
+
+@pytest.mark.order3
 def test_setup_mail_message_incorrect_to(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<@#$%^&*(gfsdg)>,body<Something in body>,from<qutestiss@gmail.com>,subject<TEST MESSAGE>").encode("utf-8"))
     fix.send_react("MAIL_MESSAGE|999|SEND".encode("utf-8"))
@@ -36,6 +41,7 @@ def test_setup_mail_message_incorrect_to(fix):
     assert param == "SEND_ERROR"
 
 
+@pytest.mark.order4
 def test_setup_mail_message_incorrect_cc(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<@#$%^&*(gfsdg)>,to<>,body<Something in body>,from<qutestiss@gmail.com>,subject<TEST MESSAGE>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
@@ -47,6 +53,7 @@ def test_setup_mail_message_incorrect_cc(fix):
     assert param == "SEND_ERROR"
 
 
+@pytest.mark.order5
 def test_setup_mail_message_incorrect_from(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<>,body<Something in body>,from<@#$%^&*(gfsdg)>,subject<TEST MESSAGE>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
@@ -58,6 +65,7 @@ def test_setup_mail_message_incorrect_from(fix):
     assert param == "SEND_ERROR"
 
 
+@pytest.mark.order6
 def test_message_empty_address_and_copy(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageEmptyAddressAndCopy").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
@@ -69,6 +77,7 @@ def test_message_empty_address_and_copy(fix):
     assert param == "SEND_ERROR"
 
 
+@pytest.mark.order7
 def test_message_empty_address_and_one_copy(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com>,to<>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageEmptyAddressAndOneCopy>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
@@ -96,7 +105,7 @@ def test_message_one_adress_and_copy(fix):
 def test_message_two_adress_and_copy(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<vtestp986@gmail.com;qatest@iss.ru>,to<qatestiss@yandex.ru;qutestiss@gmail.com>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageTwoAdressAndCopy>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
-    time.sleep(2)
+    time.sleep(3)
     n = fix.cb1.decode("utf-8")
     param = search('action<{}>', n)
     # выборка нужного элемента
