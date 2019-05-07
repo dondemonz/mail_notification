@@ -1,6 +1,7 @@
 from ctypes import windll, WINFUNCTYPE, c_int, c_char_p, c_ulong, c_uint32
 from model.input_data import *
 import time
+from parse import search
 
 p1 = c_char_p(localHostIp.encode("utf-8"))
 p2 = c_char_p(iidkPort.encode("utf-8"))
@@ -12,7 +13,7 @@ p7 = 0
 
 
 class DllHelper:
-    def __init__(self, message=None, cb1=None, cb2=None, cb3=None, obj_name=None, obj_id=None):
+    def __init__(self, message=None, cb1=None, cb2=None, cb3=None, obj_name=None, obj_id=None, p=None):
         self.my_dll = windll.LoadLibrary("iidk.dll")
         self.ConnectEx = self.my_dll.ConnectEx
         self.Disconnect = self.my_dll.Disconnect
@@ -24,6 +25,7 @@ class DllHelper:
         self.cb2 = cb2
         self.cb3 = cb3
         self.list = []
+        self.p = p
 
 
     def callback(self, cb1, cb2, cb3):
@@ -35,6 +37,15 @@ class DllHelper:
         self.list.append(cb1.decode("latin-1"))
         # print(self.list)
         return 0
+
+    def search_in_callback(self, par):
+        for param in self.list:
+            if search(par+'<{}>', param) != None:
+                self.p = search(par+'<{}>', param)
+                self.p = self.p.fixed[0]
+                return self.p
+
+            # ("'"+par+"'<{}>'", param)
 
     def callback_proto(self):
         global CallbackProto
