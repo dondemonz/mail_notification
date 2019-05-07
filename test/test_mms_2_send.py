@@ -43,7 +43,6 @@ def test_message_one_address_and_copy_with_trash(fix):
     time.sleep(3)
     n = fix.cb1.decode("utf-8")
     param = search('action<{}>', n)
-    time.sleep(3)
     # выборка нужного элемента
     param = param.fixed[0]
     assert param == "SENT"
