@@ -82,6 +82,7 @@ def test_message_empty_address_and_one_copy(fix):
 
 def test_message_one_adress_and_copy(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com>,to<qatest@iss.ru>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageOneAdressAndCopy>").encode("utf-8"))
+    time.sleep(1)
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
     time.sleep(2)
     n = fix.cb1.decode("utf-8")
