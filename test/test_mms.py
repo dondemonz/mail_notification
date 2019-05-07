@@ -100,7 +100,7 @@ def test_message_two_adress_and_copy(fix):
     time.sleep(2)
     n = fix.cb1.decode("utf-8")
     param = search('action<{}>', n)
-    time.sleep(1)
+    time.sleep(2)
     # выборка нужного элемента
     param = param.fixed[0]
     assert param == "SENT"
@@ -109,10 +109,10 @@ def test_message_two_adress_and_copy(fix):
 def test_message_one_address_and_copy_with_trash(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<qutestiss@gmail.com;asd!@#^$^fdg@.dsrgfdfusg#@sd..sdfa342*()_+_>,to<qatest@iss.ru;xcvb(&@#$*@#(DSUGFH@(HF(@Fsdgkdfg/.(())'h,\,]54-=+_+}381-)>,body<Something in body>,from<qutestiss@gmail.com>,subject<MessageOneAdressAndCopyWithTrash>").encode("utf-8"))
     fix.send_react(("MAIL_MESSAGE|" + objId + "|SEND").encode("utf-8"))
-    time.sleep(2)
+    time.sleep(3)
     n = fix.cb1.decode("utf-8")
     param = search('action<{}>', n)
-    time.sleep(1)
+    time.sleep(3)
     # выборка нужного элемента
     param = param.fixed[0]
     assert param == "SENT"
