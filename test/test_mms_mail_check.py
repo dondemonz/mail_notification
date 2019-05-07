@@ -1,6 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+# from selenium.common.exceptions import NoSuchElementException
 import time
+
+
+# в будущем можно сделать проверку на количество писем и содержание, но пока удаляем все что есть (тест проходит даже если нет писем) chkmsg работает для одного первого сообщения
+
 
 def test_mail_iss():
     wd = webdriver.Chrome()
@@ -14,7 +19,6 @@ def test_mail_iss():
     time.sleep(2)
     wd.find_element_by_xpath("//a[@id='lnkHdrdelete']").click()
     time.sleep(2)
-    # в будущем можно сделать проверку на количество писем и содержание, но пока удаляем все что есть (тест проходит даже если нет писем) chkmsg работает для одного первого сообщения
     wd.quit()
     time.sleep(2)
 
@@ -31,10 +35,10 @@ def test_yandex_mail():
     time.sleep(1)
     wd.find_element_by_name("passwd").send_keys(Keys.ENTER)
     time.sleep(3)
-    # иногда тут появляется окно о привязке к телефону, тест может падать, если будет повторяться, нужно решить проблему
-    #wd.execute_script("window.open('https://mail.yandex.ru/');")
-    wd.find_element_by_css_selector("span.checkbox_view").click()
-    time.sleep(3)
+    if not wd.find_element_by_css_selector("span.checkbox_view").is_displayed():
+        wd.find_element_by_css_selector("button.control.button2.control_hovered_yes.button2_hovered_yes.button2_view_classic.button2_size_l.button2_theme_normal.button2_width_max.passp - form - button").click()
+    else:
+        wd.find_element_by_css_selector("span.checkbox_view").click()
     wd.find_element_by_css_selector("span.mail-Toolbar-Item-Text.js-toolbar-item-title.js-toolbar-item-title-delete").click()
     time.sleep(1)
     wd.quit()
