@@ -58,6 +58,8 @@ def test_message_empty_address_and_one_copy(fix):
     # выборка нужного элемента
     param = param.fixed[0]
     assert param == "SEND_ERROR"
+
+
 def test_setup_mail_message_incorrect_to(fix):
     fix.send_event(message=("CORE||UPDATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,cc<>,to<@#$%^&*(gfsdg)>,body<Something in body>,from<qutestiss@gmail.com>,subject<TEST MESSAGE>").encode("utf-8"))
     fix.send_react("MAIL_MESSAGE|999|SEND".encode("utf-8"))
