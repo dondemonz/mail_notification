@@ -26,7 +26,10 @@ def test_mail_iss():
 def test_yandex_mail():
     wd = webdriver.Chrome()
     wd.get("https://mail.yandex.ru")
-    wd.find_element_by_class_name("HeadBanner-Button-Enter").click()
+    if not wd.find_element_by_link_text(link_text="Войти").is_displayed():
+        wd.find_element_by_link_text(link_text="Войти").click()
+    else:
+        wd.find_element_by_class_name("HeadBanner-Button-Enter").click()
     time.sleep(3)
     wd.find_element_by_name("login").send_keys("qatestiss")
     wd.find_element_by_name("login").send_keys(Keys.ENTER)
@@ -43,6 +46,8 @@ def test_yandex_mail():
     time.sleep(1)
     wd.quit()
     time.sleep(2)
+
+
 
 def test_google_mail():
     wd = webdriver.Chrome()
@@ -78,5 +83,5 @@ def test_google_mail2():
     wd.find_element_by_css_selector("span.T-Jo").click()
     time.sleep(3)
     wd.find_element_by_xpath("//div[@aria-label='Удалить']").click()
-    time.sleep(2)
     wd.quit()
+    time.sleep(2)
