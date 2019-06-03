@@ -8,6 +8,7 @@ def test_1_correct_setup_mms(fix):
     time.sleep(2)
     fix.search_in_callback(par="smtp_login")
     assert fix.p == "qutestiss@gmail.com"
+    time.sleep(2)
 
 
 def test_message_one_adress_and_copy(fix):
