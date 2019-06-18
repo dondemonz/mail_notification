@@ -43,7 +43,7 @@ def test_yandex_mail():
         pass
 
     wd.find_element_by_css_selector("span.checkbox_view").click()
-    #wd.find_element_by_css_selector("span.mail-Toolbar-Item-Text.js-toolbar-item-title.js-toolbar-item-title-delete").click()
+    wd.find_element_by_css_selector("span.mail-Toolbar-Item-Text.js-toolbar-item-title.js-toolbar-item-title-delete").click()
     time.sleep(1)
     wd.quit()
     time.sleep(2)
