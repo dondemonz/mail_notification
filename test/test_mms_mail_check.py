@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-# from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
 import time
 
 
@@ -26,10 +26,8 @@ def test_mail_iss():
 def test_yandex_mail():
     wd = webdriver.Chrome()
     wd.get("https://mail.yandex.ru")
-    if not wd.find_element_by_link_text(link_text="Войти").is_displayed():
-        wd.find_element_by_link_text(link_text="Войти").click()
-    else:
-        wd.find_element_by_class_name("HeadBanner-Button-Enter").click()
+    wd.find_element_by_link_text(link_text="Войти").click()
+    # wd.find_element_by_class_name("HeadBanner-Button-Enter").click()
     time.sleep(3)
     wd.find_element_by_name("login").send_keys("qatestiss")
     wd.find_element_by_name("login").send_keys(Keys.ENTER)
@@ -38,14 +36,25 @@ def test_yandex_mail():
     time.sleep(1)
     wd.find_element_by_name("passwd").send_keys(Keys.ENTER)
     time.sleep(3)
-    if not wd.find_element_by_css_selector("span.checkbox_view").is_displayed():
-        wd.find_element_by_css_selector("button.control.button2.control_hovered_yes.button2_hovered_yes.button2_view_classic.button2_size_l.button2_theme_normal.button2_width_max.passp - form - button").click()
-    else:
-        wd.find_element_by_css_selector("span.checkbox_view").click()
-    wd.find_element_by_css_selector("span.mail-Toolbar-Item-Text.js-toolbar-item-title.js-toolbar-item-title-delete").click()
+
+    try:
+        wd.find_element_by_xpath("//div[@id='root']/div/div/div[2]/div/div/div[3]/div[2]/div/form/div[3]/button").click()
+    except NoSuchElementException:
+        pass
+
+    wd.find_element_by_css_selector("span.checkbox_view").click()
+    #wd.find_element_by_css_selector("span.mail-Toolbar-Item-Text.js-toolbar-item-title.js-toolbar-item-title-delete").click()
     time.sleep(1)
     wd.quit()
     time.sleep(2)
+
+    # //div[@id='root']/div/div/div[2]/div/div/div[3]/div[2]/div/form/div[3]/button
+    #//button[@type='button']
+    #css=button.control.button2.control_hovered_yes.button2_hovered_yes.button2_view_classic.button2_size_l.button2_theme_normal.button2_width_max.passp-form-button
+    #xpath=(.//*[normalize-space(text()) and normalize-space(.)='Не сейчас'])[1]/following::button[1]
+    # wd.find_element_by_css_selector("button.control.button2.control_hovered_yes.button2_hovered_yes.button2_view_classic.button2_size_l.button2_theme_normal.button2_width_max.passp - form - button").click()
+    # wd.find_element_by_css_selector("span.checkbox_view").is_displayed():
+    # span.button2__text
 
 
 
