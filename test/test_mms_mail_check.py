@@ -6,22 +6,21 @@ import time
 
 # в будущем можно сделать проверку на количество писем и содержание, но пока удаляем все что есть (тест проходит даже если нет писем) chkmsg работает для одного первого сообщения
 
-
+#тест отключен, т.к. после смены почтового сервера не могу сделать удаление писем, возможно потом вернусь.
+"""
 def test_mail_iss():
     wd = webdriver.Chrome()
     wd.get("https://mail.iss.ru")
     time.sleep(5)
     wd.find_element_by_name("username").send_keys("qatest")
     wd.find_element_by_name("password").send_keys("P0stgres")
-    wd.find_element_by_xpath("//input[@value='Вход']").click()
-    time.sleep(2)
-    wd.find_element_by_name("chkhd").click()
-    time.sleep(2)
-    wd.find_element_by_xpath("//a[@id='lnkHdrdelete']").click()
-    time.sleep(2)
+    #wd.find_element_by_link_text("войти").click()
+    wd.find_element_by_css_selector("span.signinTxt").click()
+    time.sleep(3)
+    wd.find_element_by_name("button3").send_keys(Keys.ENTER)
     wd.quit()
     time.sleep(2)
-
+"""
 
 def test_yandex_mail():
     wd = webdriver.Chrome()
