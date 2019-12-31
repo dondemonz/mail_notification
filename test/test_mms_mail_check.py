@@ -71,7 +71,7 @@ def test_google_mail():
     wd.find_element_by_css_selector("span.T-Jo").click()
     time.sleep(3)
     wd.find_element_by_xpath("//div[@aria-label='Удалить']").click()
-    time.sleep(2)
+    time.sleep(4)
     wd.quit()
     time.sleep(2)
 
@@ -90,5 +90,6 @@ def test_google_mail2():
     wd.find_element_by_css_selector("span.T-Jo").click()
     time.sleep(3)
     wd.find_element_by_xpath("//div[@aria-label='Удалить']").click()
+    time.sleep(4)
     wd.quit()
     time.sleep(2)
