@@ -16,10 +16,6 @@ def fix(request):
 @pytest.fixture(scope="session", autouse=True)
 def fix2(request):
     fix = DllHelper()
-    #удаление объекта в начале сделано из-за того, что очень часто после провала теста фикстура не разрушалась, оставался объект,
-    #а следующий прогон фейлился из за acsess violation при попытке создать уже имеющийся объект
-    fix.send_event(message=("CORE||DELETE_OBJECT|objtype<MMS>,objid<" + objId + ">").encode("utf-8"))
-    time.sleep(2)
     fix.send_event(message=("CORE||CREATE_OBJECT|objtype<MMS>,objid<" + objId + ">,parent_id<" + slave + ">,name<MMS>,smtp<smtp.gmail.com>,port<465>,protocol<SSL/TLS>,use_secure_connection<1>,smtp_auth<1>").encode("utf-8"))
     fix.send_event(message=("CORE||CREATE_OBJECT|objtype<MAIL_MESSAGE>,objid<" + objId + ">,parent_id<" + objId + ">,name<Test_Message>").encode("utf-8"))
     time.sleep(2)
