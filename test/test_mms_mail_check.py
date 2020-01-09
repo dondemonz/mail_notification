@@ -39,6 +39,20 @@ def test_yandex_mail():
         wd.find_element_by_xpath("//div[@id='root']/div/div/div[2]/div/div/div[3]/div[2]/div/form/div[3]/button").click()
     except NoSuchElementException:
         pass
+    """
+    снова подстава от яндекса, теперь иногда появляется окно добавления фотографии, придется отлавливать
+    незакомментированный код снизу не работает
+    < a
+    data - lego = "react"
+    href = "https://mail.yandex.ru/"
+    tabindex = "0"
+
+    class ="control link link_theme_normal header-skip-link" > Пропустить < / a >
+    """
+    try:
+        wd.find_element_by_name("Пропустить").click()
+    except NoSuchElementException:
+        pass
 
     wd.find_element_by_css_selector("span.checkbox_view").click()
     wd.find_element_by_css_selector("span.mail-Toolbar-Item-Text.js-toolbar-item-title.js-toolbar-item-title-delete").click()
