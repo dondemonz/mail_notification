@@ -27,7 +27,7 @@ def test_yandex_mail():
     wd.find_element_by_link_text(link_text="Войти").click()
     # wd.find_element_by_class_name("HeadBanner-Button-Enter").click()
     time.sleep(3)
-    wd.find_element_by_name("login").send_keys("qatestiss1")
+    wd.find_element_by_name("login").send_keys("qatestiss")
     wd.find_element_by_name("login").send_keys(Keys.ENTER)
     time.sleep(1)
     wd.find_element_by_name("passwd").send_keys("P0stgres")
