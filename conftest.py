@@ -24,6 +24,7 @@ def fix2(request):
     def fin():
         fix.send_event(message=("CORE||DELETE_OBJECT|objtype<MMS>,objid<"+objId+">").encode("utf-8"))
         print('\nSome resource fin')
+        # fix.disconnect()
     request.addfinalizer(fin)
     return request
 
