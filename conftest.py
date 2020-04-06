@@ -22,6 +22,7 @@ def fix2(request):
     time.sleep(2)
     print('\nSome recource')
     def fin():
+        time.sleep(2)
         fix.send_event(message=("CORE||DELETE_OBJECT|objtype<MMS>,objid<"+objId+">").encode("utf-8"))
         print('\nSome resource fin')
         # fix.disconnect()
