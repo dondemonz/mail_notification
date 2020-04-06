@@ -96,7 +96,7 @@ def test_google_mail2():
     time.sleep(2)
     wd.find_element_by_name("identifier").send_keys("vtestp986@gmail.com")
     wd.find_element_by_name("identifier").send_keys(Keys.ENTER)
-    time.sleep(1)
+    time.sleep(3)
     wd.find_element_by_name("password").send_keys("azov1022")
     time.sleep(1)
     wd.find_element_by_name("password").send_keys(Keys.ENTER)
