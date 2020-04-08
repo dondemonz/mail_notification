@@ -1,7 +1,7 @@
 from ctypes import windll, WINFUNCTYPE, c_int, c_char_p, c_ulong, c_uint32
 from model.input_data import *
-import time
 from parse import search
+import time
 
 p1 = c_char_p(localHostIp.encode("utf-8"))
 p2 = c_char_p(iidkPort.encode("utf-8"))
@@ -56,11 +56,14 @@ class DllHelper:
         CallbackWrapper = CallbackProto(self.callback)
 
     def connect(self):
+        time.sleep(1)
         self.my_dll.ConnectEx.argtypes = [c_char_p, c_char_p, c_char_p, CallbackProto, c_uint32, c_int, c_uint32]
+        time.sleep(1)
         self.my_dll.ConnectEx(p1, p2, p3, CallbackWrapper, p5, p6, p7)
 
 
     def send_react(self, message):
+        time.sleep(1)
         self.connect_to_dll()
         # message = ("CORE", "RANDOM", "CREATE_OBJECT", "objtype", "CAM", "objid", "999999", "parent_id", "2", "name", "Test Camera")
         msg = c_char_p(message)
@@ -69,6 +72,7 @@ class DllHelper:
 
 
     def send_event(self, message):
+        time.sleep(1)
         self.connect_to_dll()
         msg = c_char_p(message)
         self.my_dll.SendMsg.argtypes = [c_char_p, c_char_p]
@@ -80,5 +84,7 @@ class DllHelper:
 
     def connect_to_dll(self):
         self.callback_proto()
+        time.sleep(1)
         self.callback_wrapper()
+        time.sleep(1)
         self.connect()

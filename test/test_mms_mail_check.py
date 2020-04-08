@@ -24,6 +24,7 @@ def test_mail_iss():
 def test_yandex_mail():
     wd = webdriver.Chrome()
     wd.get("https://mail.yandex.ru")
+    time.sleep(3)
     wd.find_element_by_link_text(link_text="Войти").click()
     # wd.find_element_by_class_name("HeadBanner-Button-Enter").click()
     time.sleep(3)

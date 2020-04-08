@@ -5,7 +5,7 @@ import time
 
 
 
-
+#фикстура используется напрямую в тестах и пересоздается каждый тест, чтобы очистить лист запросов, в котором ищется параметр
 @pytest.fixture
 def fix(request):
     fixture = DllHelper()
@@ -13,6 +13,7 @@ def fix(request):
     request.addfinalizer(fixture.disconnect)
     return fixture
 
+#фикстура просто создает объекты в начале тестов и удаляет обекты в конце, в тестах напрямую не используется
 @pytest.fixture(scope="session", autouse=True)
 def fix2(request):
     fix = DllHelper()
