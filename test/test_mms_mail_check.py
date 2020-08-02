@@ -51,7 +51,8 @@ def test_yandex_mail():
     class ="control link link_theme_normal header-skip-link" > Пропустить < / a >
     """
     try:
-        wd.find_element_by_name("Пропустить").click()
+        #wd.find_element_by_name("Пропустить").click()
+        wd.find_element_by_css_selector("span.Button2-Test").click()
     except NoSuchElementException:
         pass
 
