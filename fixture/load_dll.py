@@ -14,7 +14,7 @@ p7 = 0
 
 class DllHelper:
     def __init__(self, message=None, cb1=None, cb2=None, cb3=None, obj_name=None, obj_id=None, p=None):
-        self.my_dll = windll.LoadLibrary("iidk.dll")
+        self.my_dll = windll.LoadLibrary("C:\Program Files (x86)\ISS\SecurOS\iidk.dll")
         self.ConnectEx = self.my_dll.ConnectEx
         self.Disconnect = self.my_dll.Disconnect
         self.SendDoReact = self.my_dll.SendDoReact
